@@ -1,4 +1,4 @@
 from json_logger import log
 
-def testEg():
+def refer_test_case():
     log.info("testEg")

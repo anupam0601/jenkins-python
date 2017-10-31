@@ -1,14 +1,11 @@
 import unittest
-from test_eg import testEg
-from json_logger import log
 
+from json_logger import log
+from module_to_import import refer_test_case
 
 # log.info("testing current module")
 
-class TestLogger(unittest.TestCase):
-
-    def setUp(self):
-        pass
+class TestDemo(object):
 
     def testcase_one(self):
         log.info("test case one executing")
@@ -20,9 +17,5 @@ class TestLogger(unittest.TestCase):
         # anupam()
         log.info("====== TestCase 3 Executing =====")
         # log.error("three error ====================?")
-        testEg()
-        log.info("====== TestCase 3 Ended =====")
-
-
-    def tearDown(self):
-        pass
+        refer_test_case()
+        log.info("====== TestCase 3 Ended ======")
