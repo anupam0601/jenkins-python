@@ -8,6 +8,7 @@ import datetime
 import logging
 import logging.handlers
 import os
+import colorlog
 # import socket
 # import sys
 # import logmatic
@@ -56,6 +57,7 @@ class Logger(object):
             setattr(logger, 'step', lambda *args: logger.log(STEP, *args))
 
         if formatter is None:
+            handler = colorlog.StreamHandler()
             formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
                                           datefmt='%Y-%m-%d %H:%M:%S')
 
@@ -70,8 +72,10 @@ class Logger(object):
             #     extra={"hostname": socket.gethostname()}))
 
         if consolehandler is None:
-            consolehandler = logging.StreamHandler()
-            consolehandler.setFormatter(formatter)
+            consolehandler = colorlog.StreamHandler()
+            consolehandler.setFormatter(colorlog.ColoredFormatter(
+                fmt='%(log_color)s%(levelname)s:%(name)s:%(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S'))
             # consolehandler.setFormatter(logmatic.JsonFormatter(
             #     extra={"hostname": socket.gethostname()}))
 
