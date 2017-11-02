@@ -14,8 +14,6 @@ class TestDemo(object):
         log.info("Not an error")
 
     def testcase_three(self):
-        # anupam()
-        log.info("====== TestCase 3 Executing =====")
-        # log.error("three error ====================?")
+        log.step("Test Case 3 Starts")
         refer_test_case()
-        log.info("====== TestCase 3 Ended ======")
+        log.step("Test Case 3 Ends")

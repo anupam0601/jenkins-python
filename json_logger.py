@@ -8,13 +8,16 @@ import datetime
 import logging
 import logging.handlers
 import os
-import socket
-import logmatic
-import sys
+# import socket
+# import sys
+# import logmatic
+
 
 # Constants:
 LOG_ROOT = os.path.join(os.path.dirname(__file__), 'LOGS')
 
+# Custom log level
+STEP = 25
 
 class Logger(object):
     """
@@ -23,7 +26,7 @@ class Logger(object):
 
     def __init__(self, logger=None, date_tag=None,
                  filehandler=None, consolehandler=None,
-                 file_id=None):
+                 file_id=None, formatter=None):
         """
         Description:
             constructor for all the default params for the logger
@@ -44,10 +47,17 @@ class Logger(object):
             file_id = "test_logs"
 
         if logger is None:
-            # logger = logging.getLogger(file_id)
+            """
+            Adding custom log level STEP.
+            Adding 'step' as func name to custom log level STEP
+            """
+            logging.addLevelName(STEP, "STEP")
             logger = logging.getLogger(file_id)
+            setattr(logger, 'step', lambda *args: logger.log(STEP, *args))
 
-            # Add handlers and set log level
+        if formatter is None:
+            formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
+                                          datefmt='%Y-%m-%d %H:%M:%S')
 
         if filehandler is None:
             logname = '-'.join([str(file_id), date_tag, '.json'])
@@ -55,21 +65,21 @@ class Logger(object):
                 os.makedirs(LOG_ROOT)
             filehandler = logging.FileHandler(
                 os.path.join(LOG_ROOT, logname))
-            filehandler.setFormatter(logmatic.JsonFormatter(
-                extra={"hostname": socket.gethostname()}))
+            filehandler.setFormatter(formatter)
+            # filehandler.setFormatter(logmatic.JsonFormatter(
+            #     extra={"hostname": socket.gethostname()}))
 
         if consolehandler is None:
-            consolehandler = logging.StreamHandler(stream=sys.stdout)
-            consolehandler.setFormatter(logmatic.JsonFormatter(
-                extra={"hostname": socket.gethostname()}))
+            consolehandler = logging.StreamHandler()
+            consolehandler.setFormatter(formatter)
+            # consolehandler.setFormatter(logmatic.JsonFormatter(
+            #     extra={"hostname": socket.gethostname()}))
 
         logger.addHandler(filehandler)
         logger.addHandler(consolehandler)
         logger.setLevel(logging.DEBUG)
 
         self.logger = logger
-        self.info = logger.info
-        self.debug = logger.debug
         self.date_tag = date_tag
         self.filehandler = filehandler
         self.consolehandler = consolehandler
@@ -109,4 +119,22 @@ class Logger(object):
         """
         return self.logger.error(message)
 
+    def step(self, message):
+        """
+        Description:
+            Logs step names for each test step
+            that would be used for test cases
+        Params:
+            message - message want to sent to method to log
+        Returns:
+            self.logger.step(message) - step message
+        """
+        step_msg = ("============ {} ===========").format(message)
+        return self.logger.step(step_msg)
+
 log = Logger()
+
+if __name__ == '__main__':
+    log.step("Test case 1 starts")
+    log.info("Test case 1 info")
+    log.error("Test case 1 error")
