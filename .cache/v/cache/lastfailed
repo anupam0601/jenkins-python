@@ -1,3 +1,6 @@
 {
-  "test_level_two/test_two.py": true
+  "test_level_two/test_two.py": true, 
+  "test_suite.py::TestDemo::()::test_exception": true, 
+  "test_suite.py::TestDemo::()::testcase_four": true, 
+  "test_suite.py::TestDemo::()::testcase_three": true
 }
