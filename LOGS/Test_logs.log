@@ -1,0 +1,13 @@
+2017-11-10 15:37:13            INFO test_suite:testcase_one:14 ============== Testcase_One ============
+2017-11-10 15:37:14            INFO module_to_import:refer_test_case:8 testEg
+2017-11-10 15:37:15            INFO test_suite:testcase_one:16 {'test_status': 'PASS', 'test_id': 'testcase_one'}
+2017-11-10 15:37:15            INFO test_suite:testcase_two:20 ============== Testcase_Two ============
+2017-11-10 15:37:15            INFO test_suite:testcase_two:21 Not an error
+2017-11-10 15:37:15            INFO test_suite:testcase_two:22 {'test_status': 'PASS', 'test_id': 'testcase_two'}
+2017-11-10 15:37:15            INFO test_suite:testcase_three:25 ============== Testcase_Three ============
+2017-11-10 15:37:17            ERROR test_suite:testcase_three:30 assert 1 == 2
+Traceback (most recent call last):
+  File "/home/anupam/jenkins-python/test_suite.py", line 27, in testcase_three
+    assert 1 == 2
+AssertionError: assert 1 == 2
+2017-11-10 15:37:17            INFO test_suite:testcase_three:31 {'test_status': 'FAIL', 'test_id': 'testcase_three'}
